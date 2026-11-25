@@ -127,8 +127,8 @@ function safeProfile(profile) {
   return result;
 }
 
-// Запоминаем только сведения, которые пользователь
-// прямо сообщил о себе.
+// Запоминаем только сведения,
+// которые пользователь прямо сообщил о себе.
 
 function updateProfile(text, oldProfile = {}) {
   const profile = safeProfile(oldProfile);
@@ -212,11 +212,14 @@ async function searchWeb(query, timeoutMs) {
       Math.min(SERPER_TIMEOUT_MS, timeoutMs)
     );
 
-    if (!response.ok) {
-      console.error(
-        "SERPER HTTP ERROR:",
-        response.status
-      );
+   if (!response.ok) {
+  console.error(
+    "SERPER ERROR DETAILS:",
+    response.status,
+    JSON.stringify(data).slice(0, 500)
+  );
+  return "";
+}
 
       return {
         context: "",
@@ -507,11 +510,13 @@ export default async function handler(req, res) {
   );
 
   // Приоритет у сохраненного профиля пользователя.
+
   const oldProfile = safeProfile(
     userState.profile || sessionState.profile
   );
 
   // Обновляем профиль только из явно сообщенных фактов.
+
   const profile = updateProfile(text, oldProfile);
 
   // Межсессионная память работает для авторизованных
@@ -636,3 +641,4 @@ export {
   safeProfile,
   updateProfile
 };
+
