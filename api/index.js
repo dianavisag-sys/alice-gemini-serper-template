@@ -212,14 +212,11 @@ async function searchWeb(query, timeoutMs) {
       Math.min(SERPER_TIMEOUT_MS, timeoutMs)
     );
 
-   if (!response.ok) {
-  console.error(
-    "SERPER ERROR DETAILS:",
-    response.status,
-    JSON.stringify(data).slice(0, 500)
-  );
-  return "";
-}
+    if (!response.ok) {
+      console.error(
+        "SERPER HTTP ERROR:",
+        response.status
+      );
 
       return {
         context: "",
@@ -641,4 +638,3 @@ export {
   safeProfile,
   updateProfile
 };
-
